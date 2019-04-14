@@ -53,7 +53,7 @@ bool HunspellSpellchecker::SetDictionary(const std::string& language, const std:
   hunspell = new Hunspell(affixpath.c_str(), dpath.c_str());
 
   std::string custom_dpath = dirname + "/" + lang + "_custom" + ".dic";
-  hunspell->add_dic(custom_dpath.c_str());
+  hunspell->add_dic(custom_dpath.c_str(), "my_custom_dic");
 
   // Once we have the dictionary, then we check to see if we need
   // an internal conversion. This is needed because Hunspell has
