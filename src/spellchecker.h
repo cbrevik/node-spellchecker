@@ -36,6 +36,7 @@ private:
 class SpellcheckerImplementation {
 public:
   virtual bool SetDictionary(const std::string& language, const std::string& path) = 0;
+  virtual bool AddDictionary(const std::string& file_path) = 0;
   virtual std::vector<std::string> GetAvailableDictionaries(const std::string& path) = 0;
 
   // Returns an array containing possible corrections for the word.

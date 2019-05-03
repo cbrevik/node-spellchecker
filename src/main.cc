@@ -40,6 +40,21 @@ class Spellchecker : public Nan::ObjectWrap {
     info.GetReturnValue().Set(Nan::New(result));
   }
 
+  static NAN_METHOD(AddDictionary) {
+    Nan::HandleScope scope;
+
+    if (info.Length() < 1) {
+      return Nan::ThrowError("Bad argument");
+    }
+
+    Spellchecker* that = Nan::ObjectWrap::Unwrap<Spellchecker>(info.Holder());
+
+    std::string dict_path = *Nan::Utf8String(info[0]);
+
+    bool result = that->impl->AddDictionary(dict_path);
+    info.GetReturnValue().Set(Nan::New(result));
+  }
+
   static NAN_METHOD(IsMisspelled) {
     Nan::HandleScope scope;
     if (info.Length() < 1) {
@@ -199,6 +214,7 @@ class Spellchecker : public Nan::ObjectWrap {
     tpl->InstanceTemplate()->SetInternalFieldCount(1);
 
     Nan::SetPrototypeMethod(tpl, "setDictionary", Spellchecker::SetDictionary);
+    Nan::SetPrototypeMethod(tpl, "addDictionary", Spellchecker::AddDictionary);
     Nan::SetPrototypeMethod(tpl, "getAvailableDictionaries", Spellchecker::GetAvailableDictionaries);
     Nan::SetPrototypeMethod(tpl, "getCorrectionsForMisspelling", Spellchecker::GetCorrectionsForMisspelling);
     Nan::SetPrototypeMethod(tpl, "isMisspelled", Spellchecker::IsMisspelled);

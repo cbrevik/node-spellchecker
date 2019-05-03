@@ -52,9 +52,6 @@ bool HunspellSpellchecker::SetDictionary(const std::string& language, const std:
   // Create the hunspell object with our dictionary.
   hunspell = new Hunspell(affixpath.c_str(), dpath.c_str());
 
-  std::string custom_dpath = dirname + "/" + lang + "_custom" + ".dic";
-  hunspell->add_dic(custom_dpath.c_str(), "my_custom_dic");
-
   // Once we have the dictionary, then we check to see if we need
   // an internal conversion. This is needed because Hunspell has
   // two modes: in UTF-8 mode, everything is treated as a UTF-8
@@ -81,6 +78,19 @@ bool HunspellSpellchecker::SetDictionary(const std::string& language, const std:
   // Return that we successfully created the components.
   return true;
 }
+
+bool HunspellSpellchecker::AddDictionary(const std::string& file_path) {
+  FILE* handle = fopen(file_path.c_str(), "r");
+  if (!handle) {
+    return false;
+  }
+  fclose(handle);
+
+  // Create the hunspell object with our dictionary.
+  hunspell->add_dic(file_path.c_str());
+
+  return true;
+} 
 
 std::vector<std::string> HunspellSpellchecker::GetAvailableDictionaries(const std::string& path) {
   return std::vector<std::string>();
